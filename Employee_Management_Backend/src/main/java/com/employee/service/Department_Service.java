@@ -1,0 +1,35 @@
+package com.employee.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.employee.model.Department;
+import com.employee.repository.Department_Repository;
+
+@Service
+public class Department_Service {
+
+	@Autowired
+	Department_Repository department_Repository;
+	
+	public List<Department> ShowAll(){
+		return department_Repository.findAll();
+	}
+	
+	public void InsertDept(Department department) {
+		department_Repository.save(department);
+	}
+
+	public Optional<Department> FindDept(Long id) {
+		return department_Repository.findById(id);
+	}
+
+	public void DeleteDept(Long id) {
+		
+		department_Repository.deleteById(id);
+	}
+	
+}

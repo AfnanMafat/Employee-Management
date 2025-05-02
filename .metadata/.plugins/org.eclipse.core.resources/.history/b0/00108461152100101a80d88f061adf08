@@ -1,0 +1,9 @@
+package com.employee.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.employee.model.Employee;
+
+public interface Employee_Repository extends JpaRepository<Employee, Long>{
+
+}

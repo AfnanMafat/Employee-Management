@@ -1,0 +1,36 @@
+package com.employee.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.employee.model.Employee;
+import com.employee.repository.Employee_Repository;
+
+@Service
+public class Employee_Service {
+
+	@Autowired
+	Employee_Repository employee_Repository;
+	
+	public List<Employee> ShowAll(){
+		return employee_Repository.findAll();
+	}
+	
+	public void InsertEmp(Employee employee) {
+		employee_Repository.save(employee);
+	}
+
+	public Optional<Employee> FindEmp(Long id) {
+		return employee_Repository.findById(id);
+	}
+
+	public void DeleteEmp(Long id) {
+		
+		employee_Repository.deleteById(id);
+	}
+
+
+}

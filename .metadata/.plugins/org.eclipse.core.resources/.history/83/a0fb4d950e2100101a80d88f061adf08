@@ -1,0 +1,66 @@
+package com.employee.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.employee.model.Department;
+import com.employee.service.Department_Service;
+import com.employee.service.Employee_Service;
+
+@RestController
+@CrossOrigin("")
+public class Department_Controller {
+
+	@Autowired
+	Department_Service department_Service;
+	
+	@GetMapping("/AllDept")
+	public List<Department> ShowAll () {
+		return department_Service.ShowAll();
+	}
+	
+	@PostMapping("/InsertDept")
+	public void InsertDept(@RequestBody Department department) {
+		department_Service.InsertDept(department);
+	}
+	
+	@GetMapping("/FindDept/{id}")
+	public Optional<Department> FindDept(@PathVariable Long id){
+		return department_Service.FindDept(id);
+	}
+	
+	@PutMapping("/UpdateDept/{id}")
+	public void UpdateDept(@RequestBody Department department,@PathVariable Long id) {
+		
+		Optional<Department> Find = department_Service.FindDept(id);
+		
+		if(Find != null) {
+			Department Update = new Department();
+			Update.setId(department.getId());
+			Update.setName(department.getName());
+			Update.setDescription(department.getDescription());
+			
+			department_Service.InsertDept(Update);
+		}
+	}
+	
+	@DeleteMapping("/DeleteDept/{id}")
+	public void DeleteDept(@PathVariable Long id) {
+		
+		Optional<Department> Find = department_Service.FindDept(id);
+		
+		if(Find != null) {
+			department_Service.DeleteDept(id);
+		}
+	}
+}

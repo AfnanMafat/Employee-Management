@@ -1,0 +1,73 @@
+package com.employee.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.employee.model.Department;
+import com.employee.model.Employee;
+import com.employee.service.Employee_Service;
+
+@RestController
+@CrossOrigin("")
+public class Employee_Controller {
+	
+	@Autowired
+	Employee_Service employee_Service;
+
+	@GetMapping("/AllEmp")
+	public List<Employee> ShowAll () {
+		return employee_Service.ShowAll();
+	}
+	
+	@PostMapping("/InsertEmp")
+	public void InsertEmp(@RequestBody Employee employee) {
+		employee_Service.InsertEmp(employee);
+	}
+	
+	@GetMapping("/FindEmp/{id}")
+	public Optional<Employee> FindEmp(@PathVariable Long id){
+		return employee_Service.FindEmp(id);
+	}
+	
+	@PutMapping("/UpdateEmp/{id}")
+	public void UpdateEmp(@RequestBody Employee employee,@PathVariable Long id) {
+		
+		Optional<Employee> Find = employee_Service.FindEmp(id);
+		
+		if(Find != null) {
+			Employee Update = new Employee();
+			
+			Update.setId(employee.getId());
+			Update.setFirstname(employee.getFirstname());
+			Update.setLastname(employee.getLastname());
+			Update.setEmail(employee.getEmail());
+			Update.setJob_title(employee.getJob_title());
+			Update.setDepartment_id(employee.getDepartment_id());
+			Update.setSalary(employee.getSalary());
+			Update.setPhone(employee.getPhone());
+			Update.setHire_date(employee.getHire_date());
+			
+			employee_Service.InsertEmp(Update);
+		}
+	}
+	
+	@DeleteMapping("/DeleteDept/{id}")
+	public void DeleteDept(@PathVariable Long id) {
+		
+		Optional<Department> Find = employee_Service.FindDept(id);
+		
+		if(Find != null) {
+			employee_Service.DeleteDept(id);
+		}
+	}
+}
